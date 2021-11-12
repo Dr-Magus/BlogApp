@@ -1,0 +1,17 @@
+nav.nav a {
+    text-decoration: none;
+}
+
+nav.nav a:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.col-md-3 {
+    
+    transition: all .25s ease-out;
+}
+
+.col-md-3:hover {
+    transform: scale(1.05);
+}
