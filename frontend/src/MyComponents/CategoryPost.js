@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 
 export default function CategoryPost(props) {
 
     const [categoryPost, setCategoryPost] = useState([]);
     const [categories, setCategories] = useState();
+    const [loading, setLoading] = useState({
+        loading: true
+    })
 
     useEffect(() => {
 
@@ -20,6 +24,9 @@ export default function CategoryPost(props) {
                     .then(result => {
                         // console.log(result)
                         setCategoryPost(result)
+                        setLoading({
+                            loading: false
+                        })
                     })
             } catch (err) {
 
@@ -117,8 +124,12 @@ export default function CategoryPost(props) {
         return result;
     };
 
+    if (loading.loading) {
+        return <Loading />
+    }
+
     return (
-        <div className='container'>
+        <div className='container main'>
             <div className="nav-scroller py-1 mb-2">
                 <nav className="nav d-flex justify-content-between">
                     {showCategory()}

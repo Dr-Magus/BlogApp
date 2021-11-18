@@ -114,7 +114,7 @@ export default function Blog() {
     }
 
     return (
-        <div className='container'>
+        <div className='container main'>
             <div className="nav-scroller py-1 mb-2">
                 <nav className="nav d-flex justify-content-between">
                     {showCategory()}

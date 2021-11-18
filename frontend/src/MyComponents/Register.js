@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
-import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
+import axiosInstance from "../axios";
 
 export default function Register(props) {
 
@@ -9,6 +9,8 @@ export default function Register(props) {
         password: "",
         confirm_password: "",
     });
+
+    const history = useHistory();
 
     const handleInput = (event) => {
         setUserInfo(previousState => {
@@ -19,17 +21,40 @@ export default function Register(props) {
         })
     }
 
+    function handle_signup(event, data) {
 
+        event.preventDefault();
+    
+        const ele = document.querySelector(".alert-danger");
+    
+        if (data.password !== data.confirm_password) {
 
-    if (props.account_created) {
-        return <Redirect to='/' />
-    }
+          ele.innerHTML = 'Password Does Not Match';
+          ele.style.display = 'block';
+          return
+    
+        }
+    
+        ele.style.display = 'none';
+    
+        const form_data = {
+          username: data.username,
+          password: data.password
+        }
+    
+        axiosInstance.post('users/', form_data)
+          .then(res => {
+            history.push('/login')
+          });
+    
+    
+      }
 
     return (
-        <>
+        <div className='main'>
             <div className='container mt-5 border rounded p-5'>
                 <div className='alert alert-danger alert-dismissible' role='alert' style={{display: 'none'}}></div>
-                <form onSubmit={event => props.handle_signup(event, userInfo)}>
+                <form onSubmit={event => handle_signup(event, userInfo)}>
                     <div className='mb-3'>
                         <label htmlFor="username" className="form-label">Username</label>
                         <input
@@ -79,12 +104,7 @@ export default function Register(props) {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     )
 
-}
-
-Register.propTypes = {
-    handle_signup: PropTypes.func.isRequired,
-    account_created: PropTypes.bool.isRequired,
 }

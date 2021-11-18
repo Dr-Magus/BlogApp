@@ -1,7 +1,8 @@
 * {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family:'Roboto', sans-serif;
+    /* font-weight: 600; */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
 }
@@ -54,10 +55,11 @@ div.my-nav-item ul {
     margin-bottom: 0;
 }
 
-div.my-nav-item ul li {
+div.my-nav-item ul li a{
     list-style:  none;
     margin-right: 1rem;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
 }
 
 
@@ -70,7 +72,6 @@ div.my-nav-item ul a {
 div.my-nav-item ul.nav-menu a.nav-item:hover {
     color: white;
     border-bottom: 1px solid white;
-    font-weight: 500;
 }
 
 div.profile-img {
@@ -78,8 +79,6 @@ div.profile-img {
     width: 40px;
     height: 40px;
     overflow: hidden;
-    /* background-image: url(../Images/profile.jpg);
-    background-size: cover; */
     border-radius: 25px;
     transition: .2s ease-out;
 
@@ -106,7 +105,7 @@ main div.row {
 
 div.col-6 h1 {
     font-size: 6rem;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Shippori Antique B1', sans-serif;
 }
 
 div.col-6 p {
@@ -166,4 +165,8 @@ li a.dropdown-item:hover {
     background-color: transparent;
     text-decoration: underline;
     /* width: 100%; */
+}
+
+.main {
+    min-height: calc(100vh - 56px - 73px);
 }

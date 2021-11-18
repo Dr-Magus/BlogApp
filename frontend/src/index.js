@@ -14,18 +14,20 @@ import CategoryPost from './MyComponents/CategoryPost';
 import BlogDetail from './MyComponents/BlogDetail';
 import Navbar from './MyComponents/Navbar';
 import Register from './MyComponents/Register';
+import UserBlogs from './MyComponents/UserBlogs';
 
 // CSS imports
 import './MyCSS/navbar.css';
 import './MyCSS/home.css';
 import './MyCSS/blog.css';
+import './MyCSS/loading.css'
+import './MyCSS/userblogs.css'
 
 
 export default function App() {
 
   const [state, setState] = useState({
     logged_in: localStorage.getItem('access') ? true : false,
-    account_created: false,
     id: 0,
   });
 
@@ -33,41 +35,38 @@ export default function App() {
 
     if (state.logged_in) {
 
-      // axiosInstance.post('token/refresh/', {
-      //   refresh: localStorage.getItem('refresh')
-      // })
-      // .then(res => {
-      //   console.log(res.data)
-      //   localStorage.setItem('access', res.data.access)
-      // });
-
-      axiosInstance.get('current_user/',{
+      axiosInstance.get('current_user/', {
         headers: {
           'Authorization': `JWT ${localStorage.getItem('access')}`
         }
       })
-      .then(res => {
-        console.log(res.data)
-        localStorage.setItem('id', res.data.id)
-      })
+        .then(res => {
+          console.log(res.data)
+          localStorage.setItem('id', res.data.id)
+          localStorage.setItem('username', res.data.username)
+        })
+        .catch(err => {
+          // console.error(err);
+
+          try {
+            localStorage.removeItem('refresh');
+            localStorage.removeItem('id');
+            localStorage.removeItem('access')
+          } catch (bug) {
+            console.error(bug);
+          }
+
+          setState(previousState => {
+            return ({
+              ...previousState,
+              logged_in: false
+            })
+          })
+        })
     }
 
   }, [state.logged_in])
 
-  var access_token = localStorage.getItem('access');
-
-  useEffect(() => {
-
-    if (!access_token) {
-      setState(previousState => {
-        return {
-          ...previousState,
-          logged_in: false
-        }
-      })
-    }
-
-  }, [access_token])
 
   function handle_login(event, data) {
 
@@ -76,7 +75,7 @@ export default function App() {
     axiosInstance.post('token/', data)
       .then(res => {
 
-        console.log(res)
+        // console.log(res)
         if (res.status === 200) {
 
           localStorage.setItem('access', res.data.access);
@@ -100,39 +99,6 @@ export default function App() {
     < Redirect to='/' />
   }
 
-  function handle_signup(event, data) {
-
-    event.preventDefault();
-
-    const ele = document.querySelector(".alert-danger");
-
-    if (data.password !== data.confirm_password) {
-      // console.log(ele);
-      ele.innerHTML = 'Password Does Not Match';
-      ele.style.display = 'block';
-      return
-
-    }
-
-    ele.style.display = 'none';
-
-    const form_data = {
-      username: data.username,
-      password: data.password
-    }
-
-    axiosInstance.post('users/', form_data)
-      .then(res => {
-        // console.log(res.data)
-
-        console.log(res)
-        // localStorage.setItem('token', res.data.token);
-        setState({ ...state, account_created: true });
-      });
-
-    <Redirect to='/login' />
-
-  }
 
   const handle_logout = () => {
 
@@ -149,6 +115,7 @@ export default function App() {
         setState({ ...state, logged_in: false })
 
       })
+
   }
 
 
@@ -160,16 +127,17 @@ export default function App() {
         handle_logout={handle_logout}
       />
       <Switch>
-        <Route exact path="/">
-          <Home />
-          <Footer />
+        <Route exact path="/" >
+        {state.logged_in? <UserBlogs id={localStorage.getItem('id')} /> : <Home />}
+        {/* <Footer /> */}
         </Route>
+        <Route exact path='/userblogs' component={UserBlogs} />
         <Route exact path="/blogs" component={Blog} />
         <Route exact path='/login'>
           <Login handle_login={handle_login} logged_in={state.logged_in} />
         </Route>
         <Route exact path='/signup'>
-          <Register handle_signup={handle_signup} account_created={state.account_created} />
+          <Register />
         </Route>
         <Route exact path='/create'>
           <TextEditor logged_in={state.logged_in} />
@@ -177,6 +145,8 @@ export default function App() {
         <Route exact path='/blogs/:slug' component={BlogDetail} />
         <Route exact path='/category/:category' component={CategoryPost} />
       </Switch>
+
+      <Footer />
 
     </Router>
   );

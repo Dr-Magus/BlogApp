@@ -1,0 +1,12 @@
+.load {
+    display: flex;
+    background-color: black;
+}
+
+.loading {
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 7rem;
+    color: white;
+    
+}

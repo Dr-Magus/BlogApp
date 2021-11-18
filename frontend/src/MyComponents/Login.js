@@ -27,7 +27,7 @@ export default function Login(props) {
     }
 
     return (
-        <div id='login-container' className='p-3'>
+        <div id='login-container' className='p-3 main'>
             <div className="container mb-5" id="login-form">
                 <div className='alert alert-danger alert-dismissible' role='alert' style={{ display: 'none' }}></div>
                 <form onSubmit={event => props.handle_login(event, userInfo)}>
