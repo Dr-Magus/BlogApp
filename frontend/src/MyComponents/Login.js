@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 
 
+
 export default function Login(props) {
 
     const [userInfo, setUserInfo] = useState({
@@ -22,8 +23,10 @@ export default function Login(props) {
         })
     }
 
-    if (props.logged_in) {
-        return <Redirect to='/' />
+    console.log(props.logged_in)
+
+    if (props.logged_in === true ) {
+        return <Redirect to='/blogs' />
     }
 
     return (

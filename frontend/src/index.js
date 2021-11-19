@@ -21,7 +21,7 @@ import './MyCSS/navbar.css';
 import './MyCSS/home.css';
 import './MyCSS/blog.css';
 import './MyCSS/loading.css'
-import './MyCSS/userblogs.css'
+import changeLocation from './changeLocation';
 
 
 export default function App() {
@@ -96,7 +96,7 @@ export default function App() {
         ele.style.display = 'block';
       });
 
-    < Redirect to='/' />
+    <Redirect to='/' />
   }
 
 
@@ -110,11 +110,13 @@ export default function App() {
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
         localStorage.removeItem('id');
+        localStorage.removeItem('username');
         axiosInstance.defaults.headers['Authorization'] = null;
-        // <Redirect to='/login' />
-        setState({ ...state, logged_in: false })
+        setState({ ...state, logged_in: false });
+        changeLocation('/')
 
       })
+      .catch(err => console.log(err))
 
   }
 

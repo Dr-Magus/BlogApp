@@ -3,21 +3,17 @@ import axiosInstance from '../axios';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 
-function UserBlogs(props) {
+function UserBlogs() {
 
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState({
         loading: true
     })
 
-    var user_id;
-    user_id = localStorage.getItem('id')
-    
     useEffect(() => {
-        // console.log(localStorage.getItem('id'));
-        // console.log(props.id)
         const fetchData = () => {
-            axiosInstance.post('/userblogs', { id: user_id }, {
+
+            axiosInstance.post('/userblogs', { id: localStorage.getItem('id') }, {
                 headers: {
                     'Authorization': `JWT ${localStorage.getItem('access')}`
                 }
@@ -31,12 +27,9 @@ function UserBlogs(props) {
                 .catch(err => console.log(err))
         }
 
-        // if (props.id) {
-        //     return fetchData()
-        // }
         fetchData();
 
-    }, [user_id])
+    }, [])
 
     // console.log(blogs)
     const capitalizeFirstLetter = (word) => {
@@ -87,7 +80,7 @@ function UserBlogs(props) {
 
     const data = () => {
         return (
-            <div className='data container rounded my-5 p-5 shadow'>
+            <div className='data container rounded my-5 p-5 shadow' style={{backgroundColor: '#deddd3'}}>
                 <h1>Hello, {localStorage.getItem("username")}</h1><hr />
                 <h4>Number of Blog(s) you have Created: {blogs.length}</h4>
             </div>
@@ -108,7 +101,7 @@ function UserBlogs(props) {
 
     return (
         <div className='main row px-5'>
-            {data()}
+            {data()}<hr /><br />
             {displayBlog()}
         </div>
     )
