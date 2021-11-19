@@ -12,7 +12,5 @@ urlpatterns = [
     path('current_user/', views.current_user),
     path('users/', views.UserList.as_view()),
     path('user/logout/blacklist/', views.BlacklistTokenUpdateView.as_view())
-    # path('createblog', views.createForm, name='createblog'),
-    # path('editorimage', views.EditorImage.as_view(), name='editorimage'),
 
 ]
