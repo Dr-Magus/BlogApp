@@ -138,13 +138,13 @@ export default function TextEditor(props) {
 
   // check whether user is logged in or not and Redirect to home if not
   if (!props.logged_in){
-    return <Redirect to='/' />
+    return <Redirect to='/login' />
   }
   
   return (
-    <div className='container my-5'>
+    <div className='container main my-5'>
       <div className='border-bottom mb-5 m-auto w-75'>
-        <h1>Creat New Blog</h1>
+        <h1>Create New Blog</h1>
       </div>
       <form className='blogform' onSubmit={submitForm}>
         <div className="mb-3 w-75 m-auto">

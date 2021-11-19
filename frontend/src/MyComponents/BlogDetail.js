@@ -34,7 +34,7 @@ const BlogDetail = (props) => {
 
     const aboutBlog = () => {
 
-        return (blog ? <div className='container mt-3'>
+        return (blog ? <div className='main container mt-3'>
             <h1 className='display-2'>{blog.title}</h1>
             <h5><small>Written By: {blog.creator}</small></h5>
             <h2 className='text-muted mt-3'>Category: {capitalizeFirstLetter(blog.category)}</h2>

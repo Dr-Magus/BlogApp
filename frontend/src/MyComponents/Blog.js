@@ -4,23 +4,8 @@ import { Link } from 'react-router-dom';
 
 export default function Blog() {
 
-    const [categories, setCategories] = useState();
     const [blogs, setBlogs] = useState([]);
 
-    useEffect(() => {
-
-        const fetchcategory = async () => {
-            fetch('http://127.0.0.1:8000/api/category')
-                .then(response => response.json())
-                .then(result => {
-                    // console.log(result);
-                    setCategories(result);
-                })
-        };
-
-        fetchcategory();
-
-    }, [])
 
     useEffect(() => {
 
@@ -94,34 +79,9 @@ export default function Blog() {
         return result;
     };
 
-    const showCategory = () => {
-
-        let list = [];
-        let counter = 0;
-        try {
-            categories.map(category => {
-                counter++;
-                let path = `category/${category.category}`
-                return list.push(
-                    <Link key={counter} className="p-2 link-secondary" to={path}>{category.category}</Link>
-                )
-            })
-        } catch (err) {
-
-        }
-
-        return list;
-    }
 
     return (
-        <div className='container'>
-            <div className="nav-scroller py-1 mb-2">
-                <nav className="nav d-flex justify-content-between">
-                    {showCategory()}
-                </nav>
-            </div>
-            <hr /><br />
-
+        <div className='container main mt-5'>
             {getBlogs()}
         </div>
     )

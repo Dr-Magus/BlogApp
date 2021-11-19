@@ -7,11 +7,12 @@ nav.nav a:hover {
     text-decoration: underline;
 }
 
-.col-md-3 {
+.col-md-3, .col-md-6 {
     
     transition: all .25s ease-out;
 }
 
-.col-md-3:hover {
-    transform: scale(1.05);
+.col-md-3:hover, .col-md-6:hover {
+    transform: scale(1.03);
+    box-shadow: inset(5px 5px 10px);
 }

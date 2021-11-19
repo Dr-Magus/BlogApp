@@ -86,4 +86,19 @@ class BlacklistTokenUpdateView(APIView):
             token.blacklist()
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            print(e)
+            return Response({'message': e}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserBlogsView(APIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, format=None):
+        print(request.data)
+        user_id = int(request.data.get('id'))
+        try:
+            queryset = User.objects.get(pk=user_id).author.all()
+        except:
+            return Http404()
+        serializer = BlogSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

@@ -11,6 +11,6 @@ urlpatterns = [
     path('category/<str:category>', views.CategoryPostListView.as_view(), name='categoryPosts'),
     path('current_user/', views.current_user),
     path('users/', views.UserList.as_view()),
-    path('user/logout/blacklist/', views.BlacklistTokenUpdateView.as_view())
-
+    path('user/logout/blacklist/', views.BlacklistTokenUpdateView.as_view()),
+    path('userblogs', views.UserBlogsView.as_view()),
 ]

@@ -35,27 +35,27 @@ export default function Navbar(props) {
     return (
         <header className="my-navbar">
             <div style={{ marginLeft: '1rem' }}>
-                <Link to="#" className="big-text" style={{ color: "#cfcfcf" }}>NavBar</Link>
+                <Link to="#" className="big-text" style={{ color: "#cfcfcf" }}>Horizon</Link>
             </div>
             <div className="my-nav-item">
                 <ul className='nav-menu'>
-                    <li><Link className='nav-item' to="/">Home</Link></li>
+                    <li><Link className='nav-item' to="/">{props.logged_in ? 'My Blogs' : 'Home'}</Link></li>
                     <li><Link className='nav-item' to="/blogs">Blogs</Link></li>
                     <li className='dropdown'>
                         <Link to="#" onClick={displayCategory} className='dropdown-toggle nav-item' role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</Link>
                         <ul className="category-menu rounded mt-3" style={{display: 'none'}}>
-                            <li><Link className='dropdown-item' to='localhost:3000/category/World'>World</Link></li>
-                            <li><Link className='dropdown-item' to='Enviornment'>Enviornment</Link></li>
-                            <li><Link className='dropdown-item' to='category/Technology'>Technology</Link></li>
-                            <li><Link className='dropdown-item' to='category/Design'>Design</Link></li>
-                            <li><Link className='dropdown-item' to='category/Culture'>Culture</Link></li>
-                            <li><Link className='dropdown-item' to='category/Bussiness'>Bussiness</Link></li>
-                            <li><Link className='dropdown-item' to='category/Politics'>Politics</Link></li>
-                            <li><Link className='dropdown-item' to='category/Science'>Science</Link></li>
-                            <li><Link className='dropdown-item' to='category/Health'>Health</Link></li>
-                            <li><Link className='dropdown-item' to='category/Style'>Style</Link></li>
-                            <li><Link className='dropdown-item' to='category/Travel'>Travel</Link></li>
-                            <li><Link className='dropdown-item' to='category/Opinion'>Opinion</Link></li>
+                            <li><Link className='dropdown-item' to='/category/World'>World</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Enviornment'>Enviornment</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Technology'>Technology</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Design'>Design</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Culture'>Culture</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Bussiness'>Bussiness</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Politics'>Politics</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Science'>Science</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Health'>Health</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Style'>Style</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Travel'>Travel</Link></li>
+                            <li><Link className='dropdown-item' to='/category/Opinion'>Opinion</Link></li>
                         </ul>
                     </li>
                     <>

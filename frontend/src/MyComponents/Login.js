@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 
 
+
 export default function Login(props) {
 
     const [userInfo, setUserInfo] = useState({
@@ -22,12 +23,14 @@ export default function Login(props) {
         })
     }
 
-    if (props.logged_in) {
-        return <Redirect to='/' />
+    console.log(props.logged_in)
+
+    if (props.logged_in === true ) {
+        return <Redirect to='/blogs' />
     }
 
     return (
-        <div id='login-container' className='p-3'>
+        <div id='login-container' className='p-3 main'>
             <div className="container mb-5" id="login-form">
                 <div className='alert alert-danger alert-dismissible' role='alert' style={{ display: 'none' }}></div>
                 <form onSubmit={event => props.handle_login(event, userInfo)}>
