@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const BlogDetail = (props) => {
-    const [blog, setBlog] = useState();
+    const [blog, setBlog] = useState([]);
 
     useEffect(() => {
         const slug = props.match.params.slug;

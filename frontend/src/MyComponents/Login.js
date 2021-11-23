@@ -26,7 +26,7 @@ export default function Login(props) {
     console.log(props.logged_in)
 
     if (props.logged_in === true ) {
-        return <Redirect to='/blogs' />
+        return <Redirect to='/' />
     }
 
     return (

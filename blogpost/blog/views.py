@@ -8,12 +8,20 @@ from rest_framework import generics, permissions, status
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.pagination import PageNumberPagination
 # Create your views here.
+
+class PaginationView(PageNumberPagination):
+    page_size = 20
+    # max_page_size = 20
+
+
 
 class BlogListView(generics.ListCreateAPIView):
 
     parser_classes = (MultiPartParser, FormParser)
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    pagination_class = PaginationView
 
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
@@ -36,6 +44,7 @@ class CategoryListView(generics.ListAPIView):
 class CategoryPostListView(APIView):
 
     permission_classes = (permissions.AllowAny,)
+
     def get_queryset(self, category):
         try:
             pk = Category.objects.filter(category__iexact=category).first()

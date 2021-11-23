@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
+import ReactPaginate from "react-paginate";
+import axiosInstance from '../axios';
 
 export default function Blog() {
 
     const [blogs, setBlogs] = useState([]);
-
+    const [pageCount, setpageCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
 
         const fetchblog = async () => {
 
-            fetch('http://127.0.0.1:8000/api/viewblogs')
-                .then(response => response.json())
+            axiosInstance.get(`viewblogs?page=${currentPage}`)
                 .then(finalResult => {
-                    // console.log(finalResult);
-                    setBlogs(finalResult);
+                    // console.log(finalResult.data);
+                    setBlogs(finalResult.data.results);
+                    setpageCount(Math.ceil(finalResult.data.count / 20))
                 })
                 .catch((error) => console.error(error));
         };
 
         fetchblog();
-    }, [])
+    }, [currentPage])
 
     const capitalizeFirstLetter = (word) => {
         if (word)
@@ -83,6 +85,26 @@ export default function Blog() {
     return (
         <div className='container main mt-5'>
             {getBlogs()}
+            <hr />
+            <ReactPaginate
+                previousLabel={"previous"}
+                nextLabel={"next"}
+                breakLabel={"..."}
+                pageCount={pageCount}
+                // marginPagesDisplayed={2}
+                // pageRangeDisplayed={2}
+                onPageChange={data => setCurrentPage(data.selected + 1)}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+            />
         </div>
     )
 }

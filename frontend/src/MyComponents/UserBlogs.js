@@ -3,7 +3,7 @@ import axiosInstance from '../axios';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import bookmark_border from '../Images/bookmark_border.svg'
-import bookmark from '../Images/bookmark.svg'
+// import bookmark from '../Images/bookmark.svg'
 
 function UserBlogs(props) {
 
