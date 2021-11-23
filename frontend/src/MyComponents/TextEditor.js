@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { useHistory } from 'react-router-dom';
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -19,9 +18,9 @@ export default function TextEditor(props) {
     excerpt: "",
     blogContent: "",
     thumbnail: null,
-    creator: parseInt(localStorage.getItem('id'))
+    creator: parseInt(props.id)
   });
-  // const history = useHistory();
+
   const [submitBool, setSubmitBool] = useState({
     submit: false
   })
@@ -133,6 +132,9 @@ export default function TextEditor(props) {
   };
 
   if (submitBool.submit) {
+    setSubmitBool({
+      submit: false
+    })
     return <Redirect to='/blogs' />
   }
 

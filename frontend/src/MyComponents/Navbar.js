@@ -19,18 +19,6 @@ export default function Navbar(props) {
         </>
     );
 
-    const displayCategory = () => {
-
-        let ele = document.querySelector('.category-menu')
-        // console.log(ele)
-
-        if (ele.style.display === 'block') {
-            ele.style.display = 'none';
-        } else {
-            ele.style.display = 'block';
-        }
-    }
-
 
     return (
         <header className="my-navbar">
@@ -42,20 +30,22 @@ export default function Navbar(props) {
                     <li><Link className='nav-item' to="/">{props.logged_in ? 'My Blogs' : 'Home'}</Link></li>
                     <li><Link className='nav-item' to="/blogs">Blogs</Link></li>
                     <li className='dropdown'>
-                        <Link to="#" onClick={displayCategory} className='dropdown-toggle nav-item' role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categories</Link>
-                        <ul className="category-menu rounded mt-3" style={{display: 'none'}}>
-                            <li><Link className='dropdown-item' to='/category/World'>World</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Enviornment'>Enviornment</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Technology'>Technology</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Design'>Design</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Culture'>Culture</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Bussiness'>Bussiness</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Politics'>Politics</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Science'>Science</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Health'>Health</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Style'>Style</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Travel'>Travel</Link></li>
-                            <li><Link className='dropdown-item' to='/category/Opinion'>Opinion</Link></li>
+                        <Link className="dropdown-toggle" to="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </Link>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><Link className="dropdown-item" to="/category/world">World</Link></li>
+                            <li><Link className="dropdown-item" to="/category/enviornment">Enviornment</Link></li>
+                            <li><Link className="dropdown-item" to="/category/technology">Technology</Link></li>
+                            <li><Link className="dropdown-item" to="/category/design">Design</Link></li>
+                            <li><Link className="dropdown-item" to="/category/culture">Culture</Link></li>
+                            <li><Link className="dropdown-item" to="/category/bussiness">Bussiness</Link></li>
+                            <li><Link className="dropdown-item" to="/category/politics">Politics</Link></li>
+                            <li><Link className="dropdown-item" to="/category/science">Science</Link></li>
+                            <li><Link className="dropdown-item" to="/category/health">Health</Link></li>
+                            <li><Link className="dropdown-item" to="/category/style">Style</Link></li>
+                            <li><Link className="dropdown-item" to="/category/travel">Travel</Link></li>
+                            <li><Link className="dropdown-item" to="/category/opinion">Opinion</Link></li>
                         </ul>
                     </li>
                     <>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axiosInstance from "../axios";
 
 export default function Register(props) {
@@ -10,7 +10,7 @@ export default function Register(props) {
         confirm_password: "",
     });
 
-    const history = useHistory();
+    // const history = useHistory();
 
     const handleInput = (event) => {
         setUserInfo(previousState => {
@@ -24,36 +24,52 @@ export default function Register(props) {
     function handle_signup(event, data) {
 
         event.preventDefault();
-    
-        const ele = document.querySelector(".alert-danger");
-    
+
+        const ele = document.querySelector(".alert");
+
         if (data.password !== data.confirm_password) {
 
-          ele.innerHTML = 'Password Does Not Match';
-          ele.style.display = 'block';
-          return
-    
+            ele.innerHTML = 'Password Does Not Match';
+            ele.style.display = 'block';
+            return
+
+        } else if (data.username === "") {
+
+            ele.innerHTML = 'Please enter username.'
+            ele.style.display = 'block'
+            return
         }
-    
+
         ele.style.display = 'none';
-    
+
         const form_data = {
-          username: data.username,
-          password: data.password
+            username: data.username,
+            password: data.password
         }
-    
+
         axiosInstance.post('users/', form_data)
-          .then(res => {
-            history.push('/login')
-          });
-    
-    
-      }
+            .then(res => {
+                console.log(res)
+                ele.innerHTML = 'User Created Successfully! <a href="/login" >Login</a> here.'
+                // ele.classList('alert-success')
+                ele.classList.replace('alert-danger', 'alert-success')
+                ele.style.display = 'block'
+
+            })
+            .catch(err => {
+                console.log(err.response)
+                ele.innerHTML = err.response.data.username
+                ele.classList.replace('alert-danger', 'alert-warning')
+                ele.style.display = 'block'
+            });
+
+
+    }
 
     return (
         <div className='main'>
             <div className='container mt-5 border rounded p-5'>
-                <div className='alert alert-danger alert-dismissible' role='alert' style={{display: 'none'}}></div>
+                <div className='alert alert-danger alert-dismissible' role='alert' style={{ display: 'none' }}></div>
                 <form onSubmit={event => handle_signup(event, userInfo)}>
                     <div className='mb-3'>
                         <label htmlFor="username" className="form-label">Username</label>
@@ -64,7 +80,7 @@ export default function Register(props) {
                             onChange={handleInput}
                             className="form-control"
                             placeholder="username"
-                            required={true}
+                            required
                         />
                     </div>
                     <div className='mb-3'>
@@ -98,9 +114,12 @@ export default function Register(props) {
                     <div className='mb-3'>
                         <input
                             type="submit"
-                            value="LOGIN"
+                            value="Register"
                             className="btn btn-primary w-100"
                         />
+                    </div>
+                    <div className='mb-3 text-center'>
+                        Already Have Account. <Link to='/login'>Login</Link> here.
                     </div>
                 </form>
             </div>

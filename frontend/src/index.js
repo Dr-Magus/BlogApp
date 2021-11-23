@@ -15,20 +15,22 @@ import BlogDetail from './MyComponents/BlogDetail';
 import Navbar from './MyComponents/Navbar';
 import Register from './MyComponents/Register';
 import UserBlogs from './MyComponents/UserBlogs';
+import changeLocation from './changeLocation';
 
 // CSS imports
 import './MyCSS/navbar.css';
 import './MyCSS/home.css';
 import './MyCSS/blog.css';
 import './MyCSS/loading.css'
-import changeLocation from './changeLocation';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 export default function App() {
 
   const [state, setState] = useState({
-    logged_in: localStorage.getItem('access') ? true : false,
+    logged_in: localStorage.getItem('refresh') ? true : false,
     id: 0,
+    username: ''
   });
 
   useEffect(() => {
@@ -42,15 +44,20 @@ export default function App() {
       })
         .then(res => {
           console.log(res.data)
-          localStorage.setItem('id', res.data.id)
-          localStorage.setItem('username', res.data.username)
+          setState(previousState => {
+            return ({
+              ...previousState,
+              id: res.data.id,
+              username: res.data.username
+            })
+          })
+
         })
         .catch(err => {
           // console.error(err);
 
           try {
             localStorage.removeItem('refresh');
-            localStorage.removeItem('id');
             localStorage.removeItem('access')
           } catch (bug) {
             console.error(bug);
@@ -107,16 +114,20 @@ export default function App() {
     })
       .then(res => {
         console.log(res)
+        setState({ ...state, logged_in: false });
         localStorage.removeItem('access');
         localStorage.removeItem('refresh');
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
         axiosInstance.defaults.headers['Authorization'] = null;
-        setState({ ...state, logged_in: false });
         changeLocation('/')
 
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setState({
+          ...state,
+          logged_in: true
+        })
+      })
 
   }
 
@@ -130,10 +141,9 @@ export default function App() {
       />
       <Switch>
         <Route exact path="/" >
-        {state.logged_in? <UserBlogs id={localStorage.getItem('id')} /> : <Home />}
-        {/* <Footer /> */}
+          {state.logged_in ? <UserBlogs id={state.id} username={state.username} /> : <Home />}
+          {/* <Footer /> */}
         </Route>
-        <Route exact path='/userblogs' component={UserBlogs} />
         <Route exact path="/blogs" component={Blog} />
         <Route exact path='/login'>
           <Login handle_login={handle_login} logged_in={state.logged_in} />
@@ -142,7 +152,7 @@ export default function App() {
           <Register />
         </Route>
         <Route exact path='/create'>
-          <TextEditor logged_in={state.logged_in} />
+          <TextEditor logged_in={state.logged_in} id={state.id} />
         </Route>
         <Route exact path='/blogs/:slug' component={BlogDetail} />
         <Route exact path='/category/:category' component={CategoryPost} />

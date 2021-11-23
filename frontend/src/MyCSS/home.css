@@ -48,3 +48,11 @@ i.like-category {
         width: 49.999%;
     }
 }
+
+.data {
+    background-color: #323336;
+    color: #cfcfcf;
+    margin: 0 !important;
+    min-width: 100%;
+    padding: 4rem !important;
+}

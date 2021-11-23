@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import axiosInstance from '../axios';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
+import bookmark_border from '../Images/bookmark_border.svg'
+import bookmark from '../Images/bookmark.svg'
 
-function UserBlogs() {
+function UserBlogs(props) {
 
     const [blogs, setBlogs] = useState([]);
     const [loading, setLoading] = useState({
@@ -13,7 +15,7 @@ function UserBlogs() {
     useEffect(() => {
         const fetchData = () => {
 
-            axiosInstance.post('/userblogs', { id: localStorage.getItem('id') }, {
+            axiosInstance.post('/userblogs', { id: props.id }, {
                 headers: {
                     'Authorization': `JWT ${localStorage.getItem('access')}`
                 }
@@ -27,9 +29,9 @@ function UserBlogs() {
                 .catch(err => console.log(err))
         }
 
-        fetchData();
+        props.id && fetchData();
 
-    }, [])
+    }, [props.id])
 
     // console.log(blogs)
     const capitalizeFirstLetter = (word) => {
@@ -37,6 +39,12 @@ function UserBlogs() {
             return word.charAt(0).toUpperCase() + word.slice(1);
         return '';
     };
+
+    const changeBookmark = () => {
+
+        const ele = document.getElementsByClassName('bookmark-icon');
+        console.log(ele);
+    }
 
     const displayBlog = () => {
 
@@ -51,9 +59,14 @@ function UserBlogs() {
                             <img src={`http://127.0.0.1:8000${blog.thumbnail}`} className='w-100' alt='' />
                         </div>
                         <div className="p-4">
-                            <strong className="d-inline-block mb-2 text-primary">{capitalizeFirstLetter(blog.category)}</strong>
+                            <div className='d-flex justify-content-between'>
+                                <strong className="d-inline-block mb-2 text-primary">{capitalizeFirstLetter(blog.category)}</strong>
+                                <span className="material-icons" onClick={changeBookmark}>
+                                    <img src={bookmark_border} className='bookmark-icon' alt="" />
+                                </span>
+                            </div>
                             <h3 className="mb-0">{blog.title}</h3>
-                            <p className="card-text mb-auto">{blog.excerpt}</p>
+                            <p className="card-text mb-auto text-truncate" style={{maxWidth: '15rem'}}>{blog.excerpt}</p>
                             <Link to={`/blogs/${blog.slug}`} className="stretched-link">Continue reading</Link>
                         </div>
                     </div>
@@ -63,7 +76,7 @@ function UserBlogs() {
 
         for (let i = 0; i < list.length; i += 2) {
             result.push(
-                <div key={i} className='d-flex mb-2'>
+                <div key={i} className='row mb-2 justify-content-evenly'>
                     <div className='col-md-6 px-4'>
                         {list[i]}
                     </div>
@@ -80,8 +93,8 @@ function UserBlogs() {
 
     const data = () => {
         return (
-            <div className='data container rounded my-5 p-5 shadow' style={{backgroundColor: '#deddd3'}}>
-                <h1>Hello, {localStorage.getItem("username")}</h1><hr />
+            <div className='data container rounded p-5 shadow' style={{ backgroundColor: '#222326' }}>
+                <h1>Hello, {props.username}</h1><hr /><br />
                 <h4>Number of Blog(s) you have Created: {blogs.length}</h4>
             </div>
         )
@@ -100,10 +113,12 @@ function UserBlogs() {
     }
 
     return (
-        <div className='main row px-5'>
-            {data()}<hr /><br />
-            {displayBlog()}
-        </div>
+        <>
+            <div className='main'>
+                {data()} < hr /><br />
+                {displayBlog()}
+            </div>
+        </>
     )
 }
 
